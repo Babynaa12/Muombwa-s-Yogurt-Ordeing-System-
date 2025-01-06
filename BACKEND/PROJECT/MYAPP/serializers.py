@@ -27,5 +27,5 @@ class SalesSerializers(serializers.ModelSerializer):
 
 class SuppliersSerializers(serializers.ModelSerializer):
     class Meta:
-        model=Supplier
+        model=Suppliers
         fields='__all__'

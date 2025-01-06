@@ -40,7 +40,7 @@ class Sales(models.Model):
 
     def __str__(self):
         return f"Sale{self.id}-{self.product.productName}"
-class Supplier(models.Model):
+class Suppliers(models.Model):
     supplierName=models.CharField(max_length=30)
     supplierNumber=models.CharField(max_length=10,blank=True,null=True)
     supplierAddress=models.TextField(blank=True,null=True)
