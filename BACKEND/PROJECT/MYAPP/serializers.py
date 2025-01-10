@@ -2,30 +2,30 @@ from rest_framework import serializers
 from.models import *
 
 
-class UsersSerializers(serializers.ModelSerializer):
-    class Meta:
-        model=Users
-        fields='__all__'
+# class UsersSerializers(serializers.ModelSerializer):
+#     class Meta:
+#         model=User
+#         fields='__all__'
 
 class ProductsSerializers(serializers.ModelSerializer):
     class Meta:
-        model=Products
+        model=Product
         fields='__all__'
 
 
 class CustomersSerializers(serializers.ModelSerializer):
     class Meta:
-        model=Customers
+        model=Customer
         fields='__all__'
 
 
 class SalesSerializers(serializers.ModelSerializer):
     class Meta:
-        model=Sales
+        model=Sale
         fields='__all__'
 
 
-class SuppliersSerializers(serializers.ModelSerializer):
+class DeliverySerializers(serializers.ModelSerializer):
     class Meta:
-        model=Suppliers
+        model=DeliveryPerson
         fields='__all__'

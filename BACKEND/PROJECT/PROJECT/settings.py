@@ -27,6 +27,26 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 # AUTH_USER_MODEL='MYAPP.Users'
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React frontend URL
+]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # By default, require authentication
+    ],
+}
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 
 # Application definition
@@ -40,7 +60,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'MYAPP',
     'rest_framework',
-    # 'rest_framework_simplejwt',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',  # Optional: for token blacklisting
+    'corsheaders',
     # 'pillow',
 ]
 
@@ -52,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Add CorsMiddleware
 ]
 
 ROOT_URLCONF = 'PROJECT.urls'

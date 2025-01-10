@@ -54,26 +54,26 @@ import json
 #         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
-class UsersViewSet(viewsets.ModelViewSet):
-    queryset=Users.objects.all()
-    serializer_class=UsersSerializers
+# class UsersViewSet(viewsets.ModelViewSet):
+#     queryset=User.objects.all()
+#     serializer_class=UsersSerializers
 
 class ProductsViewSet(viewsets.ModelViewSet):
-    queryset=Products.objects.all()
+    queryset=Product.objects.all()
     serializer_class=ProductsSerializers
 
 
 class CustomersViewSet(viewsets.ModelViewSet):
-    queryset=Customers.objects.all()
+    queryset=Customer.objects.all()
     serializer_class=CustomersSerializers
 
 class SalesViewSet(viewsets.ModelViewSet):
-    queryset=Sales.objects.all()
+    queryset=Sale.objects.all()
     serializer_class=SalesSerializers
 
 class SupplierViewSet(viewsets.ModelViewSet):
-    queryset=Suppliers.objects.all()
-    serializer_class=SuppliersSerializers
+    queryset=DeliveryPerson.objects.all()
+    serializer_class=DeliverySerializers
 
 
     
@@ -131,11 +131,11 @@ def generic_api(model_class, serializer_class):
     return api
 
 # API views for Student record system
-manage_users = generic_api(Users, UsersSerializers)
-manage_products = generic_api(Products, ProductsSerializers)
-manage_customers = generic_api(Customers, CustomersSerializers)    
-manage_sales= generic_api(Sales, SalesSerializers)    
-manage_suppliers = generic_api(Suppliers, SuppliersSerializers)  
+# manage_user = generic_api(User, UsersSerializers)
+manage_product= generic_api(Product, ProductsSerializers)
+manage_customer = generic_api(Customer, CustomersSerializers)    
+manage_sale= generic_api(Sale, SalesSerializers)    
+manage_delivery = generic_api(DeliveryPerson, DeliverySerializers)  
 
 
 

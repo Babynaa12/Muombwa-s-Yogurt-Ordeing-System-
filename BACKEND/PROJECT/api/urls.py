@@ -1,25 +1,41 @@
+from django import views
 from django.urls import path,include
-from MYAPP .views import api_view
+from MYAPP .views import *
 from django.conf import settings
 from django.conf.urls.static import static
 from MYAPP.views import*
+from rest_framework_simplejwt.views import ( # type: ignore
+    TokenObtainPairView,  # For logging in
+    TokenRefreshView,     # For refreshing the JWT token
+)
+
+
+
 
 urlpatterns = [
-    path('users/', manage_users),  
-    path('users/<int:id>/', manage_users),
-   
+    # path('user/', manage_user),  
+    # path('user/<int:id>/', manage_user),
+     
+# JWT authentication URLs
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Obtain JWT token
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh JWT token
+    
+    # User-related URL
+    # path('users/me/',views.curent_user , name='current_user'),  # Get current user info
 
-    path('products/', manage_products),  
-    path('products/<int:id>/', manage_products), 
 
-    path('sales/', manage_sales),
-    path('sales/<int:id>/', manage_sales),
 
-    path('customers/', manage_customers),
-    path('customers<int:id>/', manage_customers),
+    path('product/', manage_product),  
+    path('product/<int:id>/', manage_product), 
 
-    path('suppliers/', manage_suppliers),
-    path('suppliers<int:id>/', manage_suppliers),
+    path('sale/', manage_sale),
+    path('sale/<int:id>/', manage_sale),
 
+    path('customer/', manage_customer),
+    path('customer/<int:id>/', manage_customer),
+
+    path('delivery/', manage_delivery),
+    path('delivery/<int:id>/', manage_delivery),
+  
     
 ]
