@@ -17,8 +17,8 @@ urlpatterns = [
     # path('user/<int:id>/', manage_user),
      
 # JWT authentication URLs
-    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Obtain JWT token
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh JWT token
+    # path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Obtain JWT token
+    # path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh JWT token
     
     # User-related URL
     # path('users/me/',views.curent_user , name='current_user'),  # Get current user info
