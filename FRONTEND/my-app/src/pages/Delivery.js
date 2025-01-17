@@ -69,15 +69,6 @@ const Delivery = () => {
     setEditId(id);
   };
 
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://127.0.0.1:8000/api/delivery/${id}/`)
-      .then(() => {
-        setDeliveries(deliveries.filter((delivery) => delivery.id !== id));
-      })
-      .catch((error) => console.error('Error deleting delivery:', error));
-  };
-
   const resetForm = () => {
     setFormData({
       DeliveryName: '',
@@ -185,7 +176,6 @@ const Delivery = () => {
                     <th>Name</th>
                     <th>Product</th>
                     <th>Address</th>
-              
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -196,19 +186,12 @@ const Delivery = () => {
                       <td>{delivery.DeliveryName}</td>
                       <td>{delivery.DeliveryProduct}</td>
                       <td>{delivery.DeliveryAddress}</td>
-             
                       <td>
                         <button
-                          className="btn btn-warning me-2"
+                          className="btn btn-warning"
                           onClick={() => handleEdit(delivery.id)}
                         >
                           Edit
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => handleDelete(delivery.id)}
-                        >
-                          Delete
                         </button>
                       </td>
                     </tr>

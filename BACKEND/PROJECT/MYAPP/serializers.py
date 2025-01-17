@@ -29,3 +29,13 @@ class DeliverySerializers(serializers.ModelSerializer):
     class Meta:
         model=DeliveryPerson
         fields='__all__'
+
+class OrdersSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class PaymentsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'

@@ -36,6 +36,13 @@ urlpatterns = [
 
     path('delivery/', manage_delivery),
     path('delivery/<int:id>/', manage_delivery),
+
+    path('order/', manage_order),
+    path('order/<int:id>/', manage_order),
+
+    path('payment/', manage_payment),
+    path('payment/<int:id>/', manage_payment),
+
   
     
 ]

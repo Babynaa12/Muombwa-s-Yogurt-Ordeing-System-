@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Customer = () => {
   const [customers, setCustomers] = useState([]);
@@ -36,11 +37,21 @@ const Customer = () => {
       if (editingCustomerId) {
         // Update customer
         await axios.put(`${API_URL}${editingCustomerId}/`, customerData);
-        alert("Customer updated successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Customer updated successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         // Add new customer
         await axios.post(API_URL, customerData);
-        alert("Customer added successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Customer added successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
 
       // Reset form
@@ -53,17 +64,11 @@ const Customer = () => {
       fetchCustomers();
     } catch (error) {
       console.error("Error saving customer:", error);
-    }
-  };
-
-  // Handle customer deletion
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${API_URL}${id}/`);
-      alert("Customer deleted successfully!");
-      fetchCustomers();
-    } catch (error) {
-      console.error("Error deleting customer:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to save customer",
+        text: error.response?.data?.detail || "An error occurred. Please try again.",
+      });
     }
   };
 
@@ -82,7 +87,7 @@ const Customer = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Customer Management</h2>
+      <h2 className="text-center mb-4">Personal Information</h2>
 
       <div className="row">
         {/* Customer Form */}
@@ -176,16 +181,10 @@ const Customer = () => {
                       <td>{customer.customerAddress}</td>
                       <td>
                         <button
-                          className="btn btn-sm btn-warning me-2"
+                          className="btn btn-sm btn-warning"
                           onClick={() => handleEdit(customer)}
                         >
                           Edit
-                        </button>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() => handleDelete(customer.id)}
-                        >
-                          Delete
                         </button>
                       </td>
                     </tr>

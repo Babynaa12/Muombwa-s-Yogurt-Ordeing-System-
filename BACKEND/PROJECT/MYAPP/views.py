@@ -75,6 +75,16 @@ class SupplierViewSet(viewsets.ModelViewSet):
     queryset=DeliveryPerson.objects.all()
     serializer_class=DeliverySerializers
 
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrdersSerializers
+    permission_classes = [IsAuthenticated]
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentsSerializers
+
 
     
 
@@ -136,8 +146,8 @@ manage_product= generic_api(Product, ProductsSerializers)
 manage_customer = generic_api(Customer, CustomersSerializers)    
 manage_sale= generic_api(Sale, SalesSerializers)    
 manage_delivery = generic_api(DeliveryPerson, DeliverySerializers)  
-
-
+manage_order = generic_api(Order, OrdersSerializers)  
+manage_payment = generic_api(Payment, PaymentsSerializers)  
 
 # #user 
 # @api_view(["GET","POST"])

@@ -15,6 +15,24 @@ from django.db import models
     # def __str__(self):
     #     return self.username
     
+class Order(models.Model):
+    customer = models.ForeignKey('Customer',on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    order_date = models.DateField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='Pending')
+
+    def __str__(self):
+        return f"Order {self.id} - {self.customer.customerName}"
+
+class Payment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    payment_date = models.DateField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_status = models.CharField(max_length=20, default='Pending')
+
+    def __str__(self):
+        return f"Payment {self.id} - Order {self.order.id}"
 class Product(models.Model):
     productName=models.CharField(max_length=40)
     Category=models.CharField(max_length=50)

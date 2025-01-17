@@ -17,28 +17,35 @@ const Sidebar = () => {
             Dashboard
           </Link>
         </li> */}
-        <li>
+        {/* <li>
           <Link to="/sale" className="sidebar-item">
           <i className="bi bi-cash-stack display-4 text-success"></i>
             Sale
           </Link>
-        </li>
+        </li> */}
         <li>
         
           <Link to="/product" className="sidebar-item">
-          <i className="bi bi-box-seam display-4 text-danger"></i>
+          <i className="bi bi-box-seam display-4 text-danger" style={{ fontSize: "30px" }}></i>
+
+
             Product
           </Link>
         </li>
         <li>
           <Link to="/customer" className="sidebar-item">
-          <i className="bi bi-person-fill display-4 text-primary"></i>
+          <i className="bi bi-person-fill display-4 text-primary" style={{ fontSize: "30px" }}></i>
+            
+            
             Customer
           </Link>
         </li>
         <li>
           <Link to="/delivery" className="sidebar-item">
-          <i className="bi bi-truck display-4 text-warning"></i>
+          <i className="bi bi-truck text-warning" style={{ fontSize: "30px" }}></i>
+
+            
+            
             Delivery
           </Link>
         </li>

@@ -8,6 +8,7 @@ import Product from "./pages/Product";
 import Sale from "./pages/Sale";
 import Delivery from "./pages/Delivery";
 import Sidebar from "./components/Sidebar";
+import Register from "./pages/Register";
 import Login from "./pages/login";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Routes>
             {<Route path="/" element={<Login />} /> }
             <Route path="/sale" element={<Sale />}/>
+            <Route path="/register" element={<Register />} />
             <Route path="/product" element={<Product />} />
             <Route path="/customer" element={<Customer />} />
             <Route path="/delivery" element={<Delivery/>} />
@@ -31,3 +33,50 @@ const App = () => {
 };
 
 export default App;
+// import React, { useState } from "react";
+// import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+// import Customer from "./pages/Customer";
+// import Product from "./pages/Product";
+// import Sale from "./pages/Sale";
+// import Register from "./pages/Register";
+// import Delivery from "./pages/Delivery";
+// import Sidebar from "./components/Sidebar";
+// import Login from "./pages/login";
+
+// const App = () => {
+//   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication status
+
+//   return (
+//     <Router>
+//       <div className="app-container">
+//         {isAuthenticated ? (
+//           // Show the Sidebar and protected routes when logged in
+//           <>
+//             <Sidebar />
+//             <div className="main-content">
+//               <Routes>
+//                 <Route path="/sale" element={<Sale />} />
+//                 <Route path="/product" element={<Product />} />
+//                 <Route path="/customer" element={<Customer />} />
+//                 <Route path="/delivery" element={<Delivery />} />
+//                 <Route path="/register" element={<Register />} />
+//                 <Route path="*" element={<Navigate to="/sale" />} />
+//               </Routes>
+//             </div>
+//           </>
+//         ) : (
+//           // Show only the Login page when not authenticated
+//           <Routes>
+//             <Route
+//               path="/"
+//               element={<Login onLogin={() => setIsAuthenticated(true)} />} // Pass login handler to Login component
+//             />
+//             <Route path="*" element={<Navigate to="/" />} />
+//           </Routes>
+//         )}
+//       </div>
+//     </Router>
+//   );
+// };
+
+// export default App;
