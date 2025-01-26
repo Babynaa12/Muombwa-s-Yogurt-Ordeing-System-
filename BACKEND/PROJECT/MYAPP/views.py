@@ -67,9 +67,9 @@ class CustomersViewSet(viewsets.ModelViewSet):
     queryset=Customer.objects.all()
     serializer_class=CustomersSerializers
 
-class SalesViewSet(viewsets.ModelViewSet):
-    queryset=Sale.objects.all()
-    serializer_class=SalesSerializers
+# class SalesViewSet(viewsets.ModelViewSet):
+#     queryset=Sale.objects.all()
+#     serializer_class=SalesSerializers
 
 class SupplierViewSet(viewsets.ModelViewSet):
     queryset=DeliveryPerson.objects.all()
@@ -144,7 +144,7 @@ def generic_api(model_class, serializer_class):
 # manage_user = generic_api(User, UsersSerializers)
 manage_product= generic_api(Product, ProductsSerializers)
 manage_customer = generic_api(Customer, CustomersSerializers)    
-manage_sale= generic_api(Sale, SalesSerializers)    
+# manage_sale= generic_api(Sale, SalesSerializers)    
 manage_delivery = generic_api(DeliveryPerson, DeliverySerializers)  
 manage_order = generic_api(Order, OrdersSerializers)  
 manage_payment = generic_api(Payment, PaymentsSerializers)  

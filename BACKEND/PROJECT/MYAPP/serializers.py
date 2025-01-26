@@ -19,10 +19,10 @@ class CustomersSerializers(serializers.ModelSerializer):
         fields='__all__'
 
 
-class SalesSerializers(serializers.ModelSerializer):
-    class Meta:
-        model=Sale
-        fields='__all__'
+# class SalesSerializers(serializers.ModelSerializer):
+#     class Meta:
+#         model=Sale
+#         fields='__all__'
 
 
 class DeliverySerializers(serializers.ModelSerializer):

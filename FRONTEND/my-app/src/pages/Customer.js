@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
-import Swal from "sweetalert2";
 
 const Customer = () => {
   const [customers, setCustomers] = useState([]);
@@ -37,21 +36,11 @@ const Customer = () => {
       if (editingCustomerId) {
         // Update customer
         await axios.put(`${API_URL}${editingCustomerId}/`, customerData);
-        Swal.fire({
-          icon: "success",
-          title: "Customer updated successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        alert("Customer updated successfully!");
       } else {
         // Add new customer
         await axios.post(API_URL, customerData);
-        Swal.fire({
-          icon: "success",
-          title: "Customer added successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        alert("Customer added successfully!");
       }
 
       // Reset form
@@ -64,11 +53,6 @@ const Customer = () => {
       fetchCustomers();
     } catch (error) {
       console.error("Error saving customer:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Failed to save customer",
-        text: error.response?.data?.detail || "An error occurred. Please try again.",
-      });
     }
   };
 

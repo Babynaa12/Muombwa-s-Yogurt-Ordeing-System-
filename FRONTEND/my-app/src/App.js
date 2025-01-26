@@ -5,11 +5,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
  // Create other components for Sales, Products, Customers, and Deliveries
 import Customer from "./pages/Customer";
 import Product from "./pages/Product";
-import Sale from "./pages/Sale";
+
+import Payment from "./pages/Payment";
 import Delivery from "./pages/Delivery";
 import Sidebar from "./components/Sidebar";
-import Register from "./pages/Register";
-import Login from "./pages/login";
+// import Register from "./pages/Register";
+// import Login from "./pages/login";
 
 const App = () => {
   return (
@@ -19,11 +20,12 @@ const App = () => {
         <div className="main-content">
           <Sidebar/>
           <Routes>
-            {<Route path="/" element={<Login />} /> }
-            <Route path="/sale" element={<Sale />}/>
-            <Route path="/register" element={<Register />} />
+            {/* {<Route path="/" element={<Login />} /> } */}
+            
+            {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/product" element={<Product />} />
-            <Route path="/customer" element={<Customer />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/" element={<Customer />} />
             <Route path="/delivery" element={<Delivery/>} />
           </Routes>
         </div>
@@ -33,11 +35,13 @@ const App = () => {
 };
 
 export default App;
+
+
 // import React, { useState } from "react";
 // import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 // import Customer from "./pages/Customer";
 // import Product from "./pages/Product";
-// import Sale from "./pages/Sale";
+// // import Sale from "./pages/Sale";
 // import Register from "./pages/Register";
 // import Delivery from "./pages/Delivery";
 // import Sidebar from "./components/Sidebar";
@@ -55,12 +59,12 @@ export default App;
 //             <Sidebar />
 //             <div className="main-content">
 //               <Routes>
-//                 <Route path="/sale" element={<Sale />} />
+//                 {/* <Route path="/sale" element={<Sale />} /> */}
 //                 <Route path="/product" element={<Product />} />
 //                 <Route path="/customer" element={<Customer />} />
 //                 <Route path="/delivery" element={<Delivery />} />
 //                 <Route path="/register" element={<Register />} />
-//                 <Route path="*" element={<Navigate to="/sale" />} />
+//                 {/* <Route path="*" element={<Navigate to="/sale" />} /> */}
 //               </Routes>
 //             </div>
 //           </>

@@ -28,8 +28,8 @@ urlpatterns = [
     path('product/', manage_product),  
     path('product/<int:id>/', manage_product), 
 
-    path('sale/', manage_sale),
-    path('sale/<int:id>/', manage_sale),
+    # path('sale/', manage_sale),
+    # path('sale/<int:id>/', manage_sale),
 
     path('customer/', manage_customer),
     path('customer/<int:id>/', manage_customer),

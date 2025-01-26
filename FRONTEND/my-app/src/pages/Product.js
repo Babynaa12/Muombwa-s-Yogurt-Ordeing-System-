@@ -4,15 +4,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]); // Orders state
+  const [orders, setOrders] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null); // To store the selected product for ordering
-  const [quantity, setQuantity] = useState(1); // To store quantity for order
-  const [customerId, setCustomerId] = useState(1); // Assuming a logged-in customer (set based on your actual logic)
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [customerId, setCustomerId] = useState("");
+  const [price, setPrice] = useState(0);
+
   const API_URL = "http://127.0.0.1:8000/api/product/";
   const ORDER_API_URL = "http://127.0.0.1:8000/api/order/";
+  const CUSTOMER_API_URL = "http://127.0.0.1:8000/api/customer/";
 
-  // Fetch all products
+  // Fetch products
   const fetchProducts = async () => {
     try {
       const response = await axios.get(API_URL);
@@ -22,7 +26,7 @@ const ProductManagement = () => {
     }
   };
 
-  // Fetch all orders
+  // Fetch orders
   const fetchOrders = async () => {
     try {
       const response = await axios.get(ORDER_API_URL);
@@ -32,73 +36,97 @@ const ProductManagement = () => {
     }
   };
 
-  // Handle Open Modal to Order
-  const handleOpenModal = (product) => {
-    setSelectedProduct(product);
-    setShowModal(true);
-  };
-
-  // Handle Close Modal
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setQuantity(1); // Reset quantity
-  };
-
-  // Handle Place Order
-  const handlePlaceOrder = async () => {
-    if (!selectedProduct || quantity <= 0) return; // Validate input
-
+  // Fetch customers
+  const fetchCustomers = async () => {
     try {
-      // Calculate total price
-      const totalPrice = (selectedProduct.price * quantity).toFixed(2);
-
-      // Get today's date (or set your own sale date)
-      const saleDate = new Date().toISOString().split('T')[0]; // Format: "YYYY-MM-DD"
-
-      const orderData = {
-        customer: customerId, // Replace with the actual customer ID
-        product: selectedProduct.id, // The product ID
-        quantity: quantity, // The quantity the user wants to order
-        totalPrice: totalPrice, // Total price for the order
-        saleDate: saleDate, // Sale date
-      };
-
-      // Log the order data to verify before sending the request
-      console.log("Order Data:", orderData);
-
-      // POST request to create the order
-      const response = await axios.post(ORDER_API_URL, orderData);
-      console.log("Order placed successfully:", response.data); // Log the success response
-      alert("Order placed successfully!");
-      setShowModal(false); // Close the modal
-      setQuantity(1); // Reset quantity
-
-      // Fetch updated orders after placing the order
-      fetchOrders();
-
+      const response = await axios.get(CUSTOMER_API_URL);
+      setCustomers(response.data);
     } catch (error) {
-      // Log the full error response for debugging
-      if (error.response) {
-        console.error("Error placing order:", error.response.data);
-        alert(`Failed to place order. Error: ${error.response.data.detail || error.response.data}`);
-      } else {
-        console.error("Error placing order:", error.message);
-        alert(`Failed to place order. Error: ${error.message}`);
-      }
+      console.error("Error fetching customers:", error);
     }
   };
 
-  // Fetch products and orders on component mount
+  // Open Modal and set default values
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+    setQuantity(1);
+    setPrice(product.price); // Set initial price
+  };
+
+  // Close Modal and reset values
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProduct(null);
+    setQuantity(1);
+    setCustomerId("");
+    setPrice(0);
+  };
+
+  // Place order
+  const handlePlaceOrder = async () => {
+    if (!selectedProduct || quantity <= 0 || !customerId) {
+      alert("Please fill all fields before placing the order.");
+      return;
+    }
+
+    try {
+      const totalPrice = (selectedProduct.price * quantity).toFixed(2);
+      const saleDate = new Date().toISOString().split("T")[0];
+
+      const orderData = {
+        customer: customerId,
+        product: selectedProduct.id,
+        quantity,
+        totalPrice,
+        order_date: saleDate,
+        status: "Pending",
+      };
+
+      const response = await axios.post(ORDER_API_URL, orderData);
+      alert("Order placed successfully!");
+      handleCloseModal(); // Close modal and reset
+      fetchOrders(); // Refresh orders
+    } catch (error) {
+      console.error("Error placing order:", error.response?.data || error.message);
+      alert("Failed to place order. Check your inputs or try again later.");
+    }
+  };
+
+  // Update price dynamically
+  useEffect(() => {
+    if (selectedProduct) {
+      setPrice((selectedProduct.price * quantity).toFixed(2));
+    }
+  }, [quantity, selectedProduct]);
+
+  // Fetch data on mount
   useEffect(() => {
     fetchProducts();
     fetchOrders();
+    fetchCustomers();
   }, []);
 
+  // Helper to get product name by ID
+  const getProductName = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    return product ? product.productName : "Unknown Product";
+  };
+
+  // Helper to get customer name by ID
+  const getCustomerName = (customerId) => {
+    const customer = customers.find((c) => c.id === customerId);
+    return customer ? customer.customerName : "Unknown Customer";
+  };
+  const getPrice = (productId) => {
+    const product = products.find((c) => c.id === productId);
+    return product ? product.price : "";
+  };
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Product Management</h2>
 
-      {/* Product List Table (Removed Quantity Column) */}
+      {/* Product List */}
       <div className="card shadow">
         <div className="card-body">
           <h5 className="card-title text-center">Product List</h5>
@@ -131,13 +159,11 @@ const ProductManagement = () => {
               ))}
             </tbody>
           </table>
-          {products.length === 0 && (
-            <p className="text-center">No products available.</p>
-          )}
+          {products.length === 0 && <p className="text-center">No products available.</p>}
         </div>
       </div>
 
-      {/* Order Table */}
+      {/* Order List */}
       <div className="mt-5">
         <h3>Orders</h3>
         <table className="table table-bordered">
@@ -145,40 +171,37 @@ const ProductManagement = () => {
             <tr>
               <th>Order ID</th>
               <th>Product Name</th>
+              <th>Customer Name</th>
               <th>Quantity</th>
               <th>Total Price (TZS)</th>
-              <th>Sale Date</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>{order.productName}</td>
+                <td>{getProductName(order.product)}</td>
+                <td>{getCustomerName(order.customer)}</td>
+               
                 <td>{order.quantity}</td>
-                <td>{order.totalPrice} TZS</td>
-                <td>{order.saleDate}</td>
+                {/* <td>TZS{order.price} </td> */}
+                <td>{(getPrice(order.product) * order.quantity).toFixed(2)} TZS</td>
+
               </tr>
             ))}
           </tbody>
         </table>
-        {orders.length === 0 && (
-          <p className="text-center">No orders placed yet.</p>
-        )}
+        {orders.length === 0 && <p className="text-center">No orders placed yet.</p>}
       </div>
 
-      {/* Order Modal */}
+      {/* Modal */}
       {showModal && (
         <div className="modal show" style={{ display: "block" }}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Place Order</h5>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={handleCloseModal}
-                >
+                <button type="button" className="close" onClick={handleCloseModal}>
                   <span>&times;</span>
                 </button>
               </div>
@@ -192,33 +215,36 @@ const ProductManagement = () => {
                     type="number"
                     className="form-control"
                     value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={(e) => setQuantity(Math.max(1, +e.target.value))}
                     min="1"
-                    max={selectedProduct?.quantity || 1}
                   />
                 </div>
-                {/* Display Product Name, Total Price, Sale Date in Modal */}
-                <div className="mt-3">
-                  <h6>Product Details</h6>
-                  <p><strong>Product Name:</strong> {selectedProduct?.productName}</p>
-                  <p><strong>Total Price:</strong> {(selectedProduct?.price * quantity).toFixed(2)} TZS</p>
-                  <p><strong>Sale Date:</strong> {new Date().toISOString().split('T')[0]}</p>
+                <div className="form-group">
+                  <label>Customer Name</label>
+                  <select
+                    className="form-control"
+                    value={customerId}
+                    onChange={(e) => setCustomerId(e.target.value)}
+                  >
+                    <option value="">Select Customer</option>
+                    {customers.map((customer) => (
+                      <option key={customer.id} value={customer.id}>
+                        {customer.customerName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Total Price</label>
+                  <input type="text" className="form-control" value={price} readOnly />
                 </div>
               </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleCloseModal}
-                >
+                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
                   Close
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handlePlaceOrder}
-                >
-                  Place Order
+                <button type="button" className="btn btn-primary" onClick={handlePlaceOrder}>
+                  Place Order 
                 </button>
               </div>
             </div>

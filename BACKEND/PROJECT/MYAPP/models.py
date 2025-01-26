@@ -50,15 +50,15 @@ class Customer(models.Model):
     def __str__(self):
         return self.customerName
 
-class Sale(models.Model):
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    customer=models.ForeignKey(Customer,on_delete=models.CASCADE)
-    # user=models.ForeignKey(User,on_delete=models.CASCADE)
-    totalPrice=models.DecimalField(max_digits=10,decimal_places=2)
-    saleDate=models.DateField()
+# class Sale(models.Model):
+#     product=models.ForeignKey(Product,on_delete=models.CASCADE)
+#     customer=models.ForeignKey(Customer,on_delete=models.CASCADE)
+#     # user=models.ForeignKey(User,on_delete=models.CASCADE)
+#     totalPrice=models.DecimalField(max_digits=10,decimal_places=2)
+#     saleDate=models.DateField()
 
-    def __str__(self):
-        return f"Sale{self.id}-{self.product.productName}"
+#     def __str__(self):
+#         return f"Sale{self.id}-{self.product.productName}"
 class DeliveryPerson(models.Model):
     DeliveryName=models.CharField(max_length=30)
     DeliveryNumber=models.CharField(max_length=10,blank=True,null=True)

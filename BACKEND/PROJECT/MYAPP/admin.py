@@ -5,7 +5,7 @@ from.models import *
 admin.site.register(Product)
 # admin.site.register(User)
 admin.site.register(Customer)
-admin.site.register(Sale)
+# admin.site.register(Sale)
 admin.site.register(DeliveryPerson)
 admin.site.register(Order)
 admin.site.register(Payment)
