@@ -15,3 +15,5 @@ setting_module = "PROJECT.deployment" if "RENDER_EXTERNAL_HOSTNAME" in os.enviro
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', setting_module)
 
 application = get_asgi_application()
+
+
